@@ -1,13 +1,13 @@
 console.log("app.js is working");
 // src/app.js
 
-var app = {
+const app = {
   title: "React App Title",
   subtitle: "React subtitle",
   options: ['Cat', 'Dog']
 };
 
-var template = (
+const template = (
   <div>
     <h1>{app.title}</h1>
     <p>{app.subtitle && app.subtitle}</p>
@@ -21,26 +21,29 @@ var template = (
   </div>
 );
 
-// var user = {
-//   name: "Gulcan Yayle",
-//   age: 28,
-//   location: "DC"
-// };
+let count = 0;
+const addOne = () => {
+  count++;
+  console.log("addOne", count); 
+}
 
-// function getLocation(location) {
-//   if (location) {
-//     return <p>Location: {user.location}</p>;
-//   }
-// }
+const minusOne = () => {
+  console.log('minusOne'); 
+}
 
-// var templateTwo = (
-//   <div>
-//     <h1>Name: {user.name ? user.name : "Anonymous"}</h1>
-//     {user.age && user.age >= 18 && <p>Age: {user.age}</p>}
-//     <p>{getLocation(user.location)}</p>
-//   </div>
-// );
+const reset = () => {
+  console.log('Reset'); 
+}
+const templateTwo = (
+  <div>
+    <h1>Count: {count}</h1>
+    <button onClick={addOne} className="button">+1</button>
+    <button onClick={minusOne} className="">-1</button>
+    <button onClick={reset} className=''>Reset</button>
 
-var appRoot = document.getElementById("app");
+  </div>
+);
 
-ReactDOM.render(template, appRoot);
+const appRoot = document.getElementById("app");
+
+ReactDOM.render(templateTwo, appRoot);
