@@ -6,87 +6,86 @@ console.log("app.js is working");
 var app = {
   title: "React App Title",
   subtitle: "React subtitle",
-  options: ['Cat', 'Dog']
+  options: []
 };
 
-var template = React.createElement(
-  "div",
-  null,
-  React.createElement(
-    "h1",
-    null,
-    app.title
-  ),
-  React.createElement(
-    "p",
-    null,
-    app.subtitle && app.subtitle
-  ),
-  React.createElement(
-    "p",
-    null,
-    app.options.length > 0 ? "Here are your options" : "No options"
-  ),
-  React.createElement(
-    "ol",
-    null,
-    React.createElement(
-      "li",
-      null,
-      "one"
-    ),
-    React.createElement(
-      "li",
-      null,
-      "two"
-    ),
-    React.createElement(
-      "li",
-      null,
-      "three"
-    )
-  )
-);
+var onForSubmit = function onForSubmit(e) {
+  e.preventDefault();
+  var option = e.target.elements.option.value;
 
-var count = 0;
-var addOne = function addOne() {
-  count++;
-  console.log("addOne", count);
+  if (option) {
+    app.options.push(option);
+    e.target.elements.option.value = "";
+    render();
+  }
 };
 
-var minusOne = function minusOne() {
-  console.log('minusOne');
+var removeAll = function removeAll() {
+  app.options = [];
+  render();
 };
 
-var reset = function reset() {
-  console.log('Reset');
+var onMakeDecision = function onMakeDecision() {
+  var randombNum = Math.floor(Math.random() * app.options.length);
+  console.log(randombNum);
+  alert(randombNum);
 };
-var templateTwo = React.createElement(
-  "div",
-  null,
-  React.createElement(
-    "h1",
-    null,
-    "Count: ",
-    count
-  ),
-  React.createElement(
-    "button",
-    { onClick: addOne, className: "button" },
-    "+1"
-  ),
-  React.createElement(
-    "button",
-    { onClick: minusOne, className: "" },
-    "-1"
-  ),
-  React.createElement(
-    "button",
-    { onClick: reset, className: "" },
-    "Reset"
-  )
-);
 
 var appRoot = document.getElementById("app");
 
-ReactDOM.render(templateTwo, appRoot);
+var render = function render() {
+  var template = React.createElement(
+    "div",
+    null,
+    React.createElement(
+      "h1",
+      null,
+      app.title
+    ),
+    React.createElement(
+      "p",
+      null,
+      app.subtitle && app.subtitle
+    ),
+    React.createElement(
+      "p",
+      null,
+      app.options.length > 0 ? "Here are your options" : "No options"
+    ),
+    React.createElement(
+      "button",
+      { disabled: app.options.length === 0, onClick: onMakeDecision },
+      "What should it do?"
+    ),
+    React.createElement(
+      "button",
+      { onClick: removeAll },
+      "Remove All"
+    ),
+    onForSubmit,
+    React.createElement(
+      "ol",
+      null,
+      app.options.map(function (option) {
+        return React.createElement(
+          "li",
+          { key: option },
+          option
+        );
+      })
+    ),
+    React.createElement(
+      "form",
+      { onSubmit: onForSubmit },
+      React.createElement("input", { type: "text", name: "option" }),
+      React.createElement(
+        "button",
+        null,
+        "Add Option"
+      )
+    )
+  );
+  ReactDOM.render(template, appRoot);
+};
+
+render();
