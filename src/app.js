@@ -2,7 +2,7 @@ class IndecisionApp extends React.Component {
   render() {
     const title = "Indecision App";
     const subtitle = "This is the subtitle";
-    const options = ['one', 'two', 'three'];
+    const options = ["one", "two", "three"];
 
     return (
       <div>
@@ -40,12 +40,17 @@ class Action extends React.Component {
 }
 
 class Options extends React.Component {
+  handleRemoveAll() {
+    options = [];
+  }
+
   render() {
     return (
       <div>
-      {
-        this.props.options.map((option) => <Option key={option} optionText={option} /> )
-      }
+        <button onClick={this.handleRemoveAll}>Delete All</button>
+        {this.props.options.map(option => (
+          <Option key={option} optionText={option} />
+        ))}
         {this.props.options.length}
         <p>This is options</p>
         <Option />
@@ -61,22 +66,26 @@ class Option extends React.Component {
 }
 
 class AddOption extends React.Component {
+  handleAppOption(e) {
+    e.preventDefault();
+
+    const option = e.target.elements.option.value.trim();
+
+    if (option) {
+      alert("Cat");
+    }
+  }
   render() {
-    return(
+    return (
       <div>
-        <button>Add options here</button>
+        <form onSubmit={this.handleAppOption}>
+          <input type="text" name="option" />
+          <button>Add options here</button>
+        </form>
       </div>
     );
   }
 }
-const jsx = (
-  <div>
-    <Header />
-    <Action />
-    <Options />
-    <AddOption />
-  </div>
-);
 
 ReactDOM.render(<IndecisionApp />, document.getElementById("app"));
 

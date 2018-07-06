@@ -22,7 +22,7 @@ var IndecisionApp = function (_React$Component) {
     value: function render() {
       var title = "Indecision App";
       var subtitle = "This is the subtitle";
-      var options = ['one', 'two', 'three'];
+      var options = ["one", "two", "three"];
 
       return React.createElement(
         "div",
@@ -118,11 +118,21 @@ var Options = function (_React$Component4) {
   }
 
   _createClass(Options, [{
+    key: "handleRemoveAll",
+    value: function handleRemoveAll() {
+      options = [];
+    }
+  }, {
     key: "render",
     value: function render() {
       return React.createElement(
         "div",
         null,
+        React.createElement(
+          "button",
+          { onClick: this.handleRemoveAll },
+          "Delete All"
+        ),
         this.props.options.map(function (option) {
           return React.createElement(Option, { key: option, optionText: option });
         }),
@@ -173,15 +183,31 @@ var AddOption = function (_React$Component6) {
   }
 
   _createClass(AddOption, [{
+    key: "handleAppOption",
+    value: function handleAppOption(e) {
+      e.preventDefault();
+
+      var option = e.target.elements.option.value.trim();
+
+      if (option) {
+        alert("Cat");
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       return React.createElement(
         "div",
         null,
         React.createElement(
-          "button",
-          null,
-          "Add options here"
+          "form",
+          { onSubmit: this.handleAppOption },
+          React.createElement("input", { type: "text", name: "option" }),
+          React.createElement(
+            "button",
+            null,
+            "Add options here"
+          )
         )
       );
     }
@@ -189,15 +215,6 @@ var AddOption = function (_React$Component6) {
 
   return AddOption;
 }(React.Component);
-
-var jsx = React.createElement(
-  "div",
-  null,
-  React.createElement(Header, null),
-  React.createElement(Action, null),
-  React.createElement(Options, null),
-  React.createElement(AddOption, null)
-);
 
 ReactDOM.render(React.createElement(IndecisionApp, null), document.getElementById("app"));
 
