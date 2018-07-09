@@ -3,9 +3,10 @@ class IndecisionApp extends React.Component {
     super();
     this.handleDeteleOptions = this.handleDeteleOptions.bind(this);
     this.handlePick = this.handlePick.bind(this);
+    this.handleAddOption = this.handleAddOption.bind(this);
 
     this.state = {
-      options: ["one", "two", "three"]
+      options: []
     };
   }
 
@@ -23,6 +24,18 @@ class IndecisionApp extends React.Component {
     alert(option);
   }
 
+  handleAddOption(option) {
+    if(!option){
+      return 'Not a valid value please try again';
+    } else if(this.state.options.indexOf(option) > -1) {
+      return 'To late already listed';
+    }
+    this.setState(prevState => {
+      return {
+        options: prevState.options.concat([option])
+      };
+    });
+  }
 
   render() {
     const title = "Indecision App";
@@ -31,8 +44,8 @@ class IndecisionApp extends React.Component {
     return (
       <div>
         <Header title={title} subtitle={subtitle} />
-        <Action 
-          hasOptions={this.state.options.length > 0} 
+        <Action
+          hasOptions={this.state.options.length > 0}
           handlePick={this.handlePick}
         />
         <Options
@@ -40,7 +53,7 @@ class IndecisionApp extends React.Component {
           handleDeteleOptions={this.handleDeteleOptions}
         />
         <Option />
-        <AddOption />
+        <AddOption handleAddOption={this.handleAddOption} />
       </div>
     );
   }
@@ -63,8 +76,8 @@ class Action extends React.Component {
   render() {
     return (
       <div>
-        <button 
-          onClick={this.props.handlePick} 
+        <button
+          onClick={this.props.handlePick}
           disabled={!this.props.hasOptions}
         >
           What sould I do?
@@ -94,19 +107,32 @@ class Option extends React.Component {
 }
 
 class AddOption extends React.Component {
-  handleAppOption(e) {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      error: undefined
+    };
+    this.handleAddOption = this.handleAddOption.bind(this);
+  }
+
+  handleAddOption(e) {
     e.preventDefault();
 
     const option = e.target.elements.option.value.trim();
+    const error = this.props.handleAddOption(option);
 
-    if (option) {
-      alert(option);
-    }
+    this.setState(() => {
+      return {
+        error: error
+      }
+    });
   }
   render() {
     return (
       <div>
-        <form onSubmit={this.handleAppOption}>
+        {this.state.error && <p>{this.state.error}</p>}
+        <form onSubmit={this.handleAddOption}>
           <input type="text" name="option" />
           <button>Add options here</button>
         </form>
