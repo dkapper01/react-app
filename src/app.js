@@ -1,22 +1,44 @@
-const obj = {
-  name: 'daniel kapper',
-  getName() {
-    return this.name
-  }
-}
-console.log(obj.getName());
-
 class IndecisionApp extends React.Component {
+  constructor(props) {
+    super();
+    this.handleDeteleOptions = this.handleDeteleOptions.bind(this);
+    this.handlePick = this.handlePick.bind(this);
+
+    this.state = {
+      options: ["one", "two", "three"]
+    };
+  }
+
+  handleDeteleOptions() {
+    this.setState(() => {
+      return {
+        options: []
+      };
+    });
+  }
+
+  handlePick() {
+    const randomOption = Math.floor(Math.random() * this.state.options.length);
+    const option = this.state.options[randomOption];
+    alert(option);
+  }
+
+
   render() {
     const title = "Indecision App";
     const subtitle = "This is the subtitle";
-    const options = ["one", "two", "three"];
 
     return (
       <div>
         <Header title={title} subtitle={subtitle} />
-        <Action />
-        <Options options={options} />
+        <Action 
+          hasOptions={this.state.options.length > 0} 
+          handlePick={this.handlePick}
+        />
+        <Options
+          options={this.state.options}
+          handleDeteleOptions={this.handleDeteleOptions}
+        />
         <Option />
         <AddOption />
       </div>
@@ -41,32 +63,25 @@ class Action extends React.Component {
   render() {
     return (
       <div>
-        <p>What to do?</p>
+        <button 
+          onClick={this.props.handlePick} 
+          disabled={!this.props.hasOptions}
+        >
+          What sould I do?
+        </button>
       </div>
     );
   }
 }
 
 class Options extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleRemoveAll = this.handleRemoveAll.bind(this);
-  }
-  handleRemoveAll() {
-    console.log(this.props.obtions);
-    // alert("handleRemoveAll")
-  }
-
   render() {
     return (
       <div>
-        <button onClick={this.handleRemoveAll}>Delete All</button>
+        <button onClick={this.props.handleDeteleOptions}>Delete All</button>
         {this.props.options.map(option => (
           <Option key={option} optionText={option} />
         ))}
-        {this.props.options.length}
-        <p>This is options</p>
-        <Option />
       </div>
     );
   }
