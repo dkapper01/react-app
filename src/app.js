@@ -4,6 +4,7 @@ class IndecisionApp extends React.Component {
     this.handleDeteleOptions = this.handleDeteleOptions.bind(this);
     this.handlePick = this.handlePick.bind(this);
     this.handleAddOption = this.handleAddOption.bind(this);
+    this.handleDeteleOption = this.handleDeteleOption.bind(this);
 
     this.state = {
       options: []
@@ -16,6 +17,14 @@ class IndecisionApp extends React.Component {
         options: []
       };
     });
+  }
+
+  handleDeteleOption(optionToRemove) {
+    this.setState((prevState) => ({
+      options: prevState.options.filter((option) => {
+        return optionToRemove !== option
+      })
+    }));
   }
 
   handlePick() {
@@ -39,7 +48,7 @@ class IndecisionApp extends React.Component {
   }
 
   render() {
-    const subtitle = 'This is the subtitle'; 
+    const subtitle = "This is the subtitle";
     return (
       <div>
         <Header subtitle={subtitle} />
@@ -50,6 +59,8 @@ class IndecisionApp extends React.Component {
         <Options
           options={this.state.options}
           handleDeteleOptions={this.handleDeteleOptions}
+          handleAddOption={this.handleAddOption}
+          handleDeteleOption={this.handleDeteleOption}
         />
         <Option />
         <AddOption handleAddOption={this.handleAddOption} />
@@ -68,8 +79,8 @@ const Header = props => {
 };
 
 Header.defaultProps = {
-  title: 'Indecision'
-}
+  title: "Indecision"
+};
 
 const Action = props => {
   return (
@@ -85,13 +96,30 @@ const Options = props => {
   return (
     <div>
       <button onClick={props.handleDeteleOptions}>Delete All</button>
-      {props.options.map(option => <Option key={option} optionText={option} />)}
+      {props.options.map(option => (
+        <Option
+          key={option}
+          optionText={option}
+          handleDeteleOption={props.handleDeteleOption}
+        />
+      ))}
     </div>
   );
 };
 
-const Option = props => {
-  return <div>{props.optionText}</div>;
+const Option = (props) => {
+  return (
+    <div>
+      {props.optionText}
+      <button 
+        onClick={(e) => {
+          props.handleDeteleOption(props.optionText)
+        }}
+      >
+        remove
+      </button>
+    </div>
+  );
 };
 
 class AddOption extends React.Component {
