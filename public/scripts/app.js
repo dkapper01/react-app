@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -28,7 +28,28 @@ var IndecisionApp = function (_React$Component) {
   }
 
   _createClass(IndecisionApp, [{
-    key: "handleDeteleOptions",
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var json = localStorage.getItem('options');
+      var options = JSON.parse(json);
+
+      this.setState(function () {
+        return {
+          options: options
+        };
+      });
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps, prevState) {
+      if (prevState.options.length !== this.state.options.length) {
+        var json = JSON.stringify(this.state.options);
+        localStorage.setItem('options', json);
+        console.log('saving data');
+      }
+    }
+  }, {
+    key: 'handleDeteleOptions',
     value: function handleDeteleOptions() {
       this.setState(function () {
         return {
@@ -37,7 +58,7 @@ var IndecisionApp = function (_React$Component) {
       });
     }
   }, {
-    key: "handleDeteleOption",
+    key: 'handleDeteleOption',
     value: function handleDeteleOption(optionToRemove) {
       this.setState(function (prevState) {
         return {
@@ -48,14 +69,14 @@ var IndecisionApp = function (_React$Component) {
       });
     }
   }, {
-    key: "handlePick",
+    key: 'handlePick',
     value: function handlePick() {
       var randomOption = Math.floor(Math.random() * this.state.options.length);
       var option = this.state.options[randomOption];
       alert(option);
     }
   }, {
-    key: "handleAddOption",
+    key: 'handleAddOption',
     value: function handleAddOption(option) {
       if (!option) {
         return "Not a valid value please try again";
@@ -70,11 +91,11 @@ var IndecisionApp = function (_React$Component) {
       });
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
       var subtitle = "This is the subtitle";
       return React.createElement(
-        "div",
+        'div',
         null,
         React.createElement(Header, { subtitle: subtitle }),
         React.createElement(Action, {
@@ -98,15 +119,15 @@ var IndecisionApp = function (_React$Component) {
 
 var Header = function Header(props) {
   return React.createElement(
-    "div",
+    'div',
     null,
     React.createElement(
-      "h1",
+      'h1',
       null,
       props.title
     ),
     props.subtitle && React.createElement(
-      "h2",
+      'h2',
       null,
       props.subtitle
     )
@@ -119,24 +140,24 @@ Header.defaultProps = {
 
 var Action = function Action(props) {
   return React.createElement(
-    "div",
+    'div',
     null,
     React.createElement(
-      "button",
+      'button',
       { onClick: props.handlePick, disabled: !props.hasOptions },
-      "What sould I do?"
+      'What sould I do?'
     )
   );
 };
 
 var Options = function Options(props) {
   return React.createElement(
-    "div",
+    'div',
     null,
     React.createElement(
-      "button",
+      'button',
       { onClick: props.handleDeteleOptions },
-      "Delete All"
+      'Delete All'
     ),
     props.options.map(function (option) {
       return React.createElement(Option, {
@@ -150,17 +171,17 @@ var Options = function Options(props) {
 
 var Option = function Option(props) {
   return React.createElement(
-    "div",
+    'div',
     null,
     props.optionText,
     React.createElement(
-      "button",
+      'button',
       {
         onClick: function onClick(e) {
           props.handleDeteleOption(props.optionText);
         }
       },
-      "remove"
+      'remove'
     )
   );
 };
@@ -181,7 +202,7 @@ var AddOption = function (_React$Component2) {
   }
 
   _createClass(AddOption, [{
-    key: "handleAddOption",
+    key: 'handleAddOption',
     value: function handleAddOption(e) {
       e.preventDefault();
 
@@ -195,24 +216,24 @@ var AddOption = function (_React$Component2) {
       });
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
       return React.createElement(
-        "div",
+        'div',
         null,
         this.state.error && React.createElement(
-          "p",
+          'p',
           null,
           this.state.error
         ),
         React.createElement(
-          "form",
+          'form',
           { onSubmit: this.handleAddOption },
-          React.createElement("input", { type: "text", name: "option" }),
+          React.createElement('input', { type: 'text', name: 'option' }),
           React.createElement(
-            "button",
+            'button',
             null,
-            "Add options here"
+            'Add options here'
           )
         )
       );

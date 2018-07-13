@@ -3,67 +3,46 @@ class Facebook extends React.Component {
     super(props);
 
     this.handleAddOption = this.handleAddOption.bind(this);
-    
+
     this.state = {
-      options: ["Thing One", "Thing Two", "Thing Three"]
-    };
-  }
-
-handleAddOption(option) {
-  console.log(option + "test");
-  this.setState(prevState => {
-    return {
-      options: prevState.options.concat([option])
+      options: ['Thing One', 'Thing Two', 'Thing three']
     }
-  });
-}
-
+  }
+  handleAddOption(option) {
+    this.setState(prevState => {
+      options: prevState.options.concat([option])
+    })
+  }
   render() {
     return (
       <div>
-        <p>Facebook React</p>
-        <Options options={this.state.options} />
+        <h1>React is cool</h1>
+        <Options 
+          options={this.state.options}
+        />
         <AddOption handleAddOption={this.handleAddOption} />
       </div>
-    );
-  }
-}
-
-class Option extends React.Component {
-  render() {
-    return <div>{this.props.optionText}</div>;
-  }
-}
-
-class Options extends React.Component {
-  render() {
-    return (
-      <div>
-        {this.props.options.map(option => (
-          <Option key={option} optionText={option} />
-        ))}
-        <p>Options</p>
-      </div>
-    );
+    );  
   }
 }
 
 class AddOption extends React.Component {
   constructor(props) {
     super(props);
+    this.handleAddOption = this.handleAddOption.bind(this);
   }
-
   handleAddOption(e) {
     e.preventDefault();
 
-    const option = e.target.elements.option.value.trim();
-    console.log(option);
+    const optionInputName = e.target.elements.optionInputName.value.trim(); 
+
+    console.log(optionInputName);
   }
   render() {
     return (
-      <div> 
+      <div>
         <form onSubmit={this.handleAddOption}>
-          <input type="text" name="option" />
+          <input type='text' name='optionInputName' />
           <button>Add Option</button>
         </form>
       </div>
@@ -71,4 +50,29 @@ class AddOption extends React.Component {
   }
 }
 
-ReactDOM.render(<Facebook />, document.getElementById('app'));
+class Options extends React.Component {
+  render() {
+    return (
+      <div>
+        <h3>Options</h3>
+        {this.props.options.map(option => (
+          <Option 
+            key={option}
+            optionText={option}
+          />
+        ))}
+        <Option />
+      </div>
+    );
+  }
+}
+
+const Option = (props) => {
+  return (
+    <div>
+      <p>{props.optionText}</p>
+    </div>
+  );
+}
+
+ReactDOM.render(<Facebook />, document.getElementById('app')); 
