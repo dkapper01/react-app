@@ -5,46 +5,28 @@ class Facebook extends React.Component {
     this.handleAddOption = this.handleAddOption.bind(this);
 
     this.state = {
-      options: ['Thing One', 'Thing Two', 'Thing three']
-    }
+      options: ["thing one", "thing two", "think three"]
+    };
   }
+
   handleAddOption(option) {
     this.setState(prevState => {
-      options: prevState.options.concat([option])
-    })
+      return {
+        options: prevState.options.concat([option])
+      };
+    });
   }
   render() {
     return (
       <div>
-        <h1>React is cool</h1>
+        <h2>Facebook</h2>
         <Options 
           options={this.state.options}
+          handleAddOption={this.handleAddOption}
         />
-        <AddOption handleAddOption={this.handleAddOption} />
-      </div>
-    );  
-  }
-}
-
-class AddOption extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleAddOption = this.handleAddOption.bind(this);
-  }
-  handleAddOption(e) {
-    e.preventDefault();
-
-    const optionInputName = e.target.elements.optionInputName.value.trim(); 
-
-    console.log(optionInputName);
-  }
-  render() {
-    return (
-      <div>
-        <form onSubmit={this.handleAddOption}>
-          <input type='text' name='optionInputName' />
-          <button>Add Option</button>
-        </form>
+        <AddOption 
+          handleAddOption={this.handleAddOption} 
+        />
       </div>
     );
   }
@@ -54,25 +36,43 @@ class Options extends React.Component {
   render() {
     return (
       <div>
-        <h3>Options</h3>
         {this.props.options.map(option => (
           <Option 
-            key={option}
-            optionText={option}
+            key={option} 
+            optionText={option} 
           />
         ))}
-        <Option />
       </div>
     );
   }
 }
-
-const Option = (props) => {
-  return (
-    <div>
-      <p>{props.optionText}</p>
-    </div>
-  );
+class Option extends React.Component {
+  render() {
+    return <div>{this.props.optionText}</div>;
+  }
 }
 
-ReactDOM.render(<Facebook />, document.getElementById('app')); 
+class AddOption extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleAddOption = this.handleAddOption.bind(this)
+  }
+  handleAddOption(e) {
+    e.preventDefault();
+
+    const option = e.target.elements.option.value.trim();
+    console.log(option);
+  }
+  render() {
+    return (
+      <div>
+        <form onSubmit={this.handleAddOption}>
+          <input text="text" name="option" />
+          <button>Add Option</button>
+        </form>
+      </div>
+    )
+  }
+}
+
+ReactDOM.render(<Facebook />, document.getElementById("app"));
