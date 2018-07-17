@@ -23,18 +23,21 @@ class Facebook extends React.Component {
         options: prevState.options.concat([option])
       };
     });
+    console.log('Cat');
   }
 
   render() {
     return (
       <div>
-        <h3>Facebook</h3>
+        <h2>Facebook</h2>
         <Options
           options={this.state.options}
           handleAddOption={this.handleAddOption}
           handleDeleteOptions={this.handleDeleteOptions}
         />
-        <AddOption handleAddOption={this.handleAddOption} />
+        <AddOption 
+          handleAddOption={this.handleAddOption} 
+        />
       </div>
     );
   }
@@ -67,7 +70,10 @@ class AddOption extends React.Component {
     e.preventDefault();
 
     const option = e.target.elements.option.value.trim();
-    console.log(option);
+    
+    if(option) {
+      this.props.handleAddOption(option);
+    }
   }
   render() {
     return (
