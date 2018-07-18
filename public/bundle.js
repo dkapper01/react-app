@@ -67,7 +67,7 @@
 /* 0 */
 /***/ (function(module, exports) {
 
-console.log("app.js is running!")
+throw new Error("Module parse failed: /Users/daniel/Desktop/react-udemy/indecision-app/src/app.js Unexpected token (4:17)\nYou may need an appropriate loader to handle this file type.\n| import ReactDOM from 'react-dom';\n| \n| const templete = <p>This cool</p>\n| \n| ReactDOM.render(templete, document.getElementById('app')); ");
 
 /***/ })
 /******/ ]);
